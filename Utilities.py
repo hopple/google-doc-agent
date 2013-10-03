@@ -1,9 +1,11 @@
 import smtplib
+import json
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from urllib import urlopen
 
 url_ip = "http://api.externalip.net/ip"
+url_ip_detail = "http://api.hostip.info/get_json.php"
 
 def getIP():
     """
@@ -11,6 +13,19 @@ def getIP():
     """
     ip = urlopen(url_ip).read()
     return ip
+
+
+def getIPDetail():
+    """
+    get the ip details including contry, city, ip
+    """
+    raw = urlopen(url_ip_detail).read()
+    raw = json.loads(raw)
+    contry = raw["country_name"]
+    city = raw["city"]
+    ip = raw["ip"]
+    return contry, city, ip
+    
 
 def sendEmail(from_addr, to_addr_list, cc_addr_list,
         subject, message, username, password,
