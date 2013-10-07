@@ -16,17 +16,15 @@ class DBMS:
         database = self.client.CreateDatabase(name) 
         return database
 
-    def existDB(self, name):
-        """
-        check if the database is exist given the database name.
-        """
-
     def getDB(self, name):
         """
         get the database object.
         """
-        database = self.client.GetDatabases(name = name)[0]
-        return database
+        if not self.client.GetDatabases(name = name):
+            return None
+        else:
+            database = self.client.GetDatabases(name = name)[0]
+            return database
 
     def createTable(self, db, name, schema):
         """
@@ -35,14 +33,12 @@ class DBMS:
         table = db.CreateTable(name, schema)
         return table
 
-    def existTable(self, db, name):
-        """
-        check if the table is exist given the table name.
-        """
-
     def getTable(self, db, name):
-        table = db.GetTables(name = name)[0]
-        return table
+        if not db.GetTables(name = name):
+            return None 
+        else:
+            table = db.GetTables(name = name)[0]
+            return table
 
     def insertRow(self, table, row):
         """
