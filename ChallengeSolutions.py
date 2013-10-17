@@ -1,4 +1,5 @@
 import string
+import pickle
 import urllib2
 import re
 
@@ -28,16 +29,16 @@ def level_1_2():
 	ascii = string.ascii_lowercase  
 	code = "cdefghijklmnopqrstuvwxyzab"  
 	code_map = {}  
-	for i in range(26):  
-    	code_map[ascii[i]] = code[i]  
-    print translate(origin, code_map)  
+	for i in range(26):
+		code_map[ascii[i]] = code[i]
+	print translate(origin, code_map)
 	print translate("map", code_map)  
 
 def level_2():
 	html = urllib2.urlopen("http://www.pythonchallenge.com/pc/def/ocr.html").read()  
 	b = html.find("\n%%")  
 	html = html[b:]  
-	print "".join(re.findall("[a-zA-Z]", html)) 
+	print "".join(re.findall("[a-zA-Z]", html))
 
 def level_3():
 	html = urllib2.urlopen("http://www.pythonchallenge.com/pc/def/equality.html").read()  
@@ -57,3 +58,9 @@ def level_4(startNumber):
 			nothing = re.search(r'and the next nothing is (\d+)', response).group(1)
 		except:
 			break
+
+def level_5():
+	f = urllib2.urlopen("http://www.pythonchallenge.com/pc/def/banner.p")
+	raw = pickle.load(f)
+	f.close()
+	print '\n'.join([''.join([letter*number for letter,number in row]) for row in raw])
