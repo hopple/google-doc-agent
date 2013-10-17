@@ -44,3 +44,16 @@ def level_3():
 	b = html.find("\n<!--")  
 	html = html[b:]  
 	print "".join(re.findall("[^A-Z]+[A-Z]{3}([a-z])[A-Z]{3}[^A-Z]+", html))  
+
+def level_4(startNumber):
+	url_string = "http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=%s"
+	nothing = startNumber
+	count = 1
+	while True:
+		try:
+			response = urllib2.urlopen(url_string % nothing).read()
+			print str(count) + "  " +response
+			count += 1
+			nothing = re.search(r'and the next nothing is (\d+)', response).group(1)
+		except:
+			break
