@@ -2,6 +2,7 @@ import string
 import pickle
 import urllib2
 import re
+import zipfile
 
 def level_0():
 	print 2 ** 38
@@ -64,3 +65,20 @@ def level_5():
 	raw = pickle.load(f)
 	f.close()
 	print '\n'.join([''.join([letter*number for letter,number in row]) for row in raw])
+
+def level_6():
+	number = "90052"
+	path = "%s.txt"
+	pattern = "Next nothing is (\d+)"
+	zf = zipfile.ZipFile('channel.zip')
+	comment = ''
+	while True:
+		try:
+			text = zf.read(path % number)
+			print text
+			comment += zf.getinfo(path % number).comment
+			number = re.search(pattern,text).group(1)
+		except:
+			break
+	zf.close()
+	print comment
